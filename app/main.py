@@ -1,8 +1,15 @@
+from fastapi import FastAPI
+
 from app.config import settings
-from app.greetings import say_hello
+
+app = FastAPI(title=settings.app_name)
 
 
-if __name__ == "__main__":
-    print(say_hello("Praneeth"))
-    print(f"Application: {settings.app_name}")
-    print(f"Environment: {settings.environment}")
+@app.get("/")
+def root():
+    return {"message": "AI Workforce Platform is running"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
