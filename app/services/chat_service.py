@@ -1,2 +1,6 @@
+from app.llm.fake import FakeLLM
+llm = FakeLLM()
+
+
 def generate_response(message: str) -> str:
-    return f"You said: {message}"
+    return llm.generate(message)
