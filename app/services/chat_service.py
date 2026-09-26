@@ -1,5 +1,5 @@
-from app.llm.fake import FakeLLM
-llm = FakeLLM()
+from app.llm.ollama import OllamaLLM
+llm = OllamaLLM()
 
 
 def generate_response(message: str) -> str:
