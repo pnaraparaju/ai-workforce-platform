@@ -1,6 +1,4 @@
-from app.llm.ollama import OllamaLLM
-llm = OllamaLLM()
+from app.llm.base import LLM
 
-
-def generate_response(message: str) -> str:
+def generate_response(message: str, llm: LLM) -> str:
     return llm.generate(message)
