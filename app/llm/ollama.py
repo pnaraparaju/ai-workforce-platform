@@ -1,5 +1,6 @@
 import requests
 
+from app.config import settings
 from app.llm.base import LLM
 
 
@@ -7,9 +8,9 @@ class OllamaLLM(LLM):
 
     def generate(self, prompt: str) -> str:
         response = requests.post(
-            "http://localhost:11434/api/generate",
+            f"{settings.ollama_base_url}/api/generate",
             json={
-                "model": "qwen3:1.7b",
+                "model": settings.ollama_model,
                 "prompt": prompt,
                 "stream": False,
             },
