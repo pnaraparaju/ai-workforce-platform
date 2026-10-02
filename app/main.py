@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 
 from app.config import settings
 from app.dependencies import get_llm
@@ -18,9 +18,21 @@ def root():
 def health_check():
     return {"status": "healthy"}
 
-
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest, llm: LLM = Depends(get_llm)):
-    response = generate_response(request.message, llm)
+    try:
+        conversation_id, response = generate_response(
+            request.message,
+            request.conversation_id,
+            llm,
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        ) from exc
 
-    return ChatResponse(response=response)
+    return ChatResponse(
+        conversation_id=conversation_id,
+        response=response,
+    )
